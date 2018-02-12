@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f4d89ceaaf8f48a78b893a1236f86b7b" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="DeltaRhoDBModel.brother" Width="1.5" PointX="3" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.committee_names" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.executive_board" Width="1.5" PointX="5.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.executive_council" Width="1.5" PointX="8.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.leader" Width="1.5" PointX="6" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.officer_title" Width="1.5" PointX="3" PointY="17.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.planned_event" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.point" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.point_requirement" Width="1.5" PointX="6" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.point_type" Width="1.5" PointX="3" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.point_type_grouping" Width="1.5" PointX="8.25" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.point_type_permission" Width="1.5" PointX="8.25" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DeltaRhoDBModel.status" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__brother__status___5165187F" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__executive__commi__628FA481" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__executive__posit__5812160E" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__point__earned_by__73BA3083" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__point__logged_by__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__executive__commi__619B8048" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__point_typ__commi__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__executive__offic__571DF1D5" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__executive__posit__5629CD9C" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__executive__posit__60A75C0F" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__point_typ__offic__6FE99F9F" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__point__event_att__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__point_typ__event__6C190EBB" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__point__point_typ__74AE54BC" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__point_req__point__6754599E" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__point_req__statu__68487DD7" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__point_typ__point__6B24EA82" ManuallyRouted="false" />
+        <AssociationConnector Association="DeltaRhoDBModel.FK__point_typ__point__6EF57B66" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
