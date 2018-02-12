@@ -1,0 +1,418 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DeltaRhoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="brother">
+    <Key>
+      <PropertyRef Name="brother_pdid" />
+    </Key>
+    <Property Name="brother_pdid" Type="int" Nullable="false" />
+    <Property Name="status_id" Type="int" />
+    <Property Name="brother_bio" Type="varchar" MaxLength="1000" />
+    <Property Name="headshot" Type="image" />
+  </EntityType>
+  <EntityType Name="committee_names">
+    <Key>
+      <PropertyRef Name="committee_name_id" />
+    </Key>
+    <Property Name="committee_name_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="committee_name" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="executive_board">
+    <Key>
+      <PropertyRef Name="officer_id" />
+    </Key>
+    <Property Name="officer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="position_id" Type="int" />
+    <Property Name="officer_title_id" Type="int" />
+    <Property Name="position_holder" Type="int" />
+  </EntityType>
+  <EntityType Name="executive_council">
+    <Key>
+      <PropertyRef Name="committee_id" />
+    </Key>
+    <Property Name="committee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="position_id" Type="int" />
+    <Property Name="committee_name_id" Type="int" />
+    <Property Name="commitee_head" Type="int" />
+  </EntityType>
+  <EntityType Name="leader">
+    <Key>
+      <PropertyRef Name="position_id" />
+    </Key>
+    <Property Name="position_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="begin_term" Type="date" />
+    <Property Name="end_term" Type="date" />
+  </EntityType>
+  <EntityType Name="officer_title">
+    <Key>
+      <PropertyRef Name="officer_title_id" />
+    </Key>
+    <Property Name="officer_title_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="officer_title_name" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="planned_event">
+    <Key>
+      <PropertyRef Name="event_id" />
+    </Key>
+    <Property Name="event_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="event_name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="begin_date" Type="datetime" />
+    <Property Name="end_date" Type="datetime" />
+    <Property Name="event_location" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="point">
+    <Key>
+      <PropertyRef Name="point_id" />
+    </Key>
+    <Property Name="point_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="earned_by" Type="int" Nullable="false" />
+    <Property Name="point_type_id" Type="int" Nullable="false" />
+    <Property Name="logged_by" Type="int" Nullable="false" />
+    <Property Name="event_attended" Type="int" />
+    <Property Name="criteria_met" Type="varchar" MaxLength="63" />
+    <Property Name="date_given" Type="datetime" />
+    <Property Name="amount" Type="decimal" Precision="4" Scale="2" />
+  </EntityType>
+  <EntityType Name="point_requirement">
+    <Key>
+      <PropertyRef Name="point_requirement_id" />
+    </Key>
+    <Property Name="point_requirement_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="point_type_id" Type="int" />
+    <Property Name="status_id" Type="int" />
+    <Property Name="minimum_amount" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="point_type">
+    <Key>
+      <PropertyRef Name="point_type_id" />
+    </Key>
+    <Property Name="point_type_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="point_type_name" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="point_type_grouping">
+    <Key>
+      <PropertyRef Name="type_grouping_id" />
+    </Key>
+    <Property Name="type_grouping_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="point_type_id" Type="int" />
+    <Property Name="event_id" Type="int" />
+  </EntityType>
+  <EntityType Name="point_type_permission">
+    <Key>
+      <PropertyRef Name="point_type_permission_id" />
+    </Key>
+    <Property Name="point_type_permission_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="point_type_id" Type="int" Nullable="false" />
+    <Property Name="officer_title_id" Type="int" />
+    <Property Name="committee_name_id" Type="int" />
+  </EntityType>
+  <EntityType Name="status">
+    <Key>
+      <PropertyRef Name="status_id" />
+    </Key>
+    <Property Name="status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="status_name" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__brother__status___5165187F">
+    <End Role="status" Type="Self.status" Multiplicity="0..1" />
+    <End Role="brother" Type="Self.brother" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="status">
+        <PropertyRef Name="status_id" />
+      </Principal>
+      <Dependent Role="brother">
+        <PropertyRef Name="status_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__executive__commi__619B8048">
+    <End Role="committee_names" Type="Self.committee_names" Multiplicity="0..1" />
+    <End Role="executive_council" Type="Self.executive_council" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="committee_names">
+        <PropertyRef Name="committee_name_id" />
+      </Principal>
+      <Dependent Role="executive_council">
+        <PropertyRef Name="committee_name_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__executive__commi__628FA481">
+    <End Role="brother" Type="Self.brother" Multiplicity="0..1" />
+    <End Role="executive_council" Type="Self.executive_council" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="brother">
+        <PropertyRef Name="brother_pdid" />
+      </Principal>
+      <Dependent Role="executive_council">
+        <PropertyRef Name="commitee_head" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__executive__offic__571DF1D5">
+    <End Role="officer_title" Type="Self.officer_title" Multiplicity="0..1" />
+    <End Role="executive_board" Type="Self.executive_board" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="officer_title">
+        <PropertyRef Name="officer_title_id" />
+      </Principal>
+      <Dependent Role="executive_board">
+        <PropertyRef Name="officer_title_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__executive__posit__5629CD9C">
+    <End Role="leader" Type="Self.leader" Multiplicity="0..1" />
+    <End Role="executive_board" Type="Self.executive_board" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="leader">
+        <PropertyRef Name="position_id" />
+      </Principal>
+      <Dependent Role="executive_board">
+        <PropertyRef Name="position_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__executive__posit__5812160E">
+    <End Role="brother" Type="Self.brother" Multiplicity="0..1" />
+    <End Role="executive_board" Type="Self.executive_board" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="brother">
+        <PropertyRef Name="brother_pdid" />
+      </Principal>
+      <Dependent Role="executive_board">
+        <PropertyRef Name="position_holder" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__executive__posit__60A75C0F">
+    <End Role="leader" Type="Self.leader" Multiplicity="0..1" />
+    <End Role="executive_council" Type="Self.executive_council" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="leader">
+        <PropertyRef Name="position_id" />
+      </Principal>
+      <Dependent Role="executive_council">
+        <PropertyRef Name="position_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__point__earned_by__73BA3083">
+    <End Role="brother" Type="Self.brother" Multiplicity="1" />
+    <End Role="point" Type="Self.point" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="brother">
+        <PropertyRef Name="brother_pdid" />
+      </Principal>
+      <Dependent Role="point">
+        <PropertyRef Name="earned_by" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__point__event_att__76969D2E">
+    <End Role="planned_event" Type="Self.planned_event" Multiplicity="0..1" />
+    <End Role="point" Type="Self.point" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="planned_event">
+        <PropertyRef Name="event_id" />
+      </Principal>
+      <Dependent Role="point">
+        <PropertyRef Name="event_attended" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__point__logged_by__75A278F5">
+    <End Role="brother" Type="Self.brother" Multiplicity="1" />
+    <End Role="point" Type="Self.point" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="brother">
+        <PropertyRef Name="brother_pdid" />
+      </Principal>
+      <Dependent Role="point">
+        <PropertyRef Name="logged_by" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__point__point_typ__74AE54BC">
+    <End Role="point_type" Type="Self.point_type" Multiplicity="1" />
+    <End Role="point" Type="Self.point" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="point_type">
+        <PropertyRef Name="point_type_id" />
+      </Principal>
+      <Dependent Role="point">
+        <PropertyRef Name="point_type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__point_req__point__6754599E">
+    <End Role="point_type" Type="Self.point_type" Multiplicity="0..1" />
+    <End Role="point_requirement" Type="Self.point_requirement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="point_type">
+        <PropertyRef Name="point_type_id" />
+      </Principal>
+      <Dependent Role="point_requirement">
+        <PropertyRef Name="point_type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__point_req__statu__68487DD7">
+    <End Role="status" Type="Self.status" Multiplicity="0..1" />
+    <End Role="point_requirement" Type="Self.point_requirement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="status">
+        <PropertyRef Name="status_id" />
+      </Principal>
+      <Dependent Role="point_requirement">
+        <PropertyRef Name="status_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__point_typ__commi__70DDC3D8">
+    <End Role="committee_names" Type="Self.committee_names" Multiplicity="0..1" />
+    <End Role="point_type_permission" Type="Self.point_type_permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="committee_names">
+        <PropertyRef Name="committee_name_id" />
+      </Principal>
+      <Dependent Role="point_type_permission">
+        <PropertyRef Name="committee_name_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__point_typ__event__6C190EBB">
+    <End Role="planned_event" Type="Self.planned_event" Multiplicity="0..1" />
+    <End Role="point_type_grouping" Type="Self.point_type_grouping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="planned_event">
+        <PropertyRef Name="event_id" />
+      </Principal>
+      <Dependent Role="point_type_grouping">
+        <PropertyRef Name="event_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__point_typ__offic__6FE99F9F">
+    <End Role="officer_title" Type="Self.officer_title" Multiplicity="0..1" />
+    <End Role="point_type_permission" Type="Self.point_type_permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="officer_title">
+        <PropertyRef Name="officer_title_id" />
+      </Principal>
+      <Dependent Role="point_type_permission">
+        <PropertyRef Name="officer_title_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__point_typ__point__6B24EA82">
+    <End Role="point_type" Type="Self.point_type" Multiplicity="0..1" />
+    <End Role="point_type_grouping" Type="Self.point_type_grouping" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="point_type">
+        <PropertyRef Name="point_type_id" />
+      </Principal>
+      <Dependent Role="point_type_grouping">
+        <PropertyRef Name="point_type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__point_typ__point__6EF57B66">
+    <End Role="point_type" Type="Self.point_type" Multiplicity="1" />
+    <End Role="point_type_permission" Type="Self.point_type_permission" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="point_type">
+        <PropertyRef Name="point_type_id" />
+      </Principal>
+      <Dependent Role="point_type_permission">
+        <PropertyRef Name="point_type_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DeltaRhoDBModelStoreContainer">
+    <EntitySet Name="brother" EntityType="Self.brother" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="committee_names" EntityType="Self.committee_names" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="executive_board" EntityType="Self.executive_board" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="executive_council" EntityType="Self.executive_council" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="leader" EntityType="Self.leader" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="officer_title" EntityType="Self.officer_title" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="planned_event" EntityType="Self.planned_event" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="point" EntityType="Self.point" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="point_requirement" EntityType="Self.point_requirement" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="point_type" EntityType="Self.point_type" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="point_type_grouping" EntityType="Self.point_type_grouping" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="point_type_permission" EntityType="Self.point_type_permission" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__brother__status___5165187F" Association="Self.FK__brother__status___5165187F">
+      <End Role="status" EntitySet="status" />
+      <End Role="brother" EntitySet="brother" />
+    </AssociationSet>
+    <AssociationSet Name="FK__executive__commi__619B8048" Association="Self.FK__executive__commi__619B8048">
+      <End Role="committee_names" EntitySet="committee_names" />
+      <End Role="executive_council" EntitySet="executive_council" />
+    </AssociationSet>
+    <AssociationSet Name="FK__executive__commi__628FA481" Association="Self.FK__executive__commi__628FA481">
+      <End Role="brother" EntitySet="brother" />
+      <End Role="executive_council" EntitySet="executive_council" />
+    </AssociationSet>
+    <AssociationSet Name="FK__executive__offic__571DF1D5" Association="Self.FK__executive__offic__571DF1D5">
+      <End Role="officer_title" EntitySet="officer_title" />
+      <End Role="executive_board" EntitySet="executive_board" />
+    </AssociationSet>
+    <AssociationSet Name="FK__executive__posit__5629CD9C" Association="Self.FK__executive__posit__5629CD9C">
+      <End Role="leader" EntitySet="leader" />
+      <End Role="executive_board" EntitySet="executive_board" />
+    </AssociationSet>
+    <AssociationSet Name="FK__executive__posit__5812160E" Association="Self.FK__executive__posit__5812160E">
+      <End Role="brother" EntitySet="brother" />
+      <End Role="executive_board" EntitySet="executive_board" />
+    </AssociationSet>
+    <AssociationSet Name="FK__executive__posit__60A75C0F" Association="Self.FK__executive__posit__60A75C0F">
+      <End Role="leader" EntitySet="leader" />
+      <End Role="executive_council" EntitySet="executive_council" />
+    </AssociationSet>
+    <AssociationSet Name="FK__point__earned_by__73BA3083" Association="Self.FK__point__earned_by__73BA3083">
+      <End Role="brother" EntitySet="brother" />
+      <End Role="point" EntitySet="point" />
+    </AssociationSet>
+    <AssociationSet Name="FK__point__event_att__76969D2E" Association="Self.FK__point__event_att__76969D2E">
+      <End Role="planned_event" EntitySet="planned_event" />
+      <End Role="point" EntitySet="point" />
+    </AssociationSet>
+    <AssociationSet Name="FK__point__logged_by__75A278F5" Association="Self.FK__point__logged_by__75A278F5">
+      <End Role="brother" EntitySet="brother" />
+      <End Role="point" EntitySet="point" />
+    </AssociationSet>
+    <AssociationSet Name="FK__point__point_typ__74AE54BC" Association="Self.FK__point__point_typ__74AE54BC">
+      <End Role="point_type" EntitySet="point_type" />
+      <End Role="point" EntitySet="point" />
+    </AssociationSet>
+    <AssociationSet Name="FK__point_req__point__6754599E" Association="Self.FK__point_req__point__6754599E">
+      <End Role="point_type" EntitySet="point_type" />
+      <End Role="point_requirement" EntitySet="point_requirement" />
+    </AssociationSet>
+    <AssociationSet Name="FK__point_req__statu__68487DD7" Association="Self.FK__point_req__statu__68487DD7">
+      <End Role="status" EntitySet="status" />
+      <End Role="point_requirement" EntitySet="point_requirement" />
+    </AssociationSet>
+    <AssociationSet Name="FK__point_typ__commi__70DDC3D8" Association="Self.FK__point_typ__commi__70DDC3D8">
+      <End Role="committee_names" EntitySet="committee_names" />
+      <End Role="point_type_permission" EntitySet="point_type_permission" />
+    </AssociationSet>
+    <AssociationSet Name="FK__point_typ__event__6C190EBB" Association="Self.FK__point_typ__event__6C190EBB">
+      <End Role="planned_event" EntitySet="planned_event" />
+      <End Role="point_type_grouping" EntitySet="point_type_grouping" />
+    </AssociationSet>
+    <AssociationSet Name="FK__point_typ__offic__6FE99F9F" Association="Self.FK__point_typ__offic__6FE99F9F">
+      <End Role="officer_title" EntitySet="officer_title" />
+      <End Role="point_type_permission" EntitySet="point_type_permission" />
+    </AssociationSet>
+    <AssociationSet Name="FK__point_typ__point__6B24EA82" Association="Self.FK__point_typ__point__6B24EA82">
+      <End Role="point_type" EntitySet="point_type" />
+      <End Role="point_type_grouping" EntitySet="point_type_grouping" />
+    </AssociationSet>
+    <AssociationSet Name="FK__point_typ__point__6EF57B66" Association="Self.FK__point_typ__point__6EF57B66">
+      <End Role="point_type" EntitySet="point_type" />
+      <End Role="point_type_permission" EntitySet="point_type_permission" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

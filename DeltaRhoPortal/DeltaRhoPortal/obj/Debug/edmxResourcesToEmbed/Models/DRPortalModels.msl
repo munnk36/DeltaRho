@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DeltaRhoDBModelStoreContainer" CdmEntityContainer="DeltaRhoDBEntities">
+    <EntitySetMapping Name="brothers">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.brother">
+        <MappingFragment StoreEntitySet="brother">
+          <ScalarProperty Name="brother_pdid" ColumnName="brother_pdid" />
+          <ScalarProperty Name="status_id" ColumnName="status_id" />
+          <ScalarProperty Name="brother_bio" ColumnName="brother_bio" />
+          <ScalarProperty Name="headshot" ColumnName="headshot" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="committee_names">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.committee_names">
+        <MappingFragment StoreEntitySet="committee_names">
+          <ScalarProperty Name="committee_name_id" ColumnName="committee_name_id" />
+          <ScalarProperty Name="committee_name" ColumnName="committee_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="executive_board">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.executive_board">
+        <MappingFragment StoreEntitySet="executive_board">
+          <ScalarProperty Name="officer_id" ColumnName="officer_id" />
+          <ScalarProperty Name="position_id" ColumnName="position_id" />
+          <ScalarProperty Name="officer_title_id" ColumnName="officer_title_id" />
+          <ScalarProperty Name="position_holder" ColumnName="position_holder" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="executive_council">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.executive_council">
+        <MappingFragment StoreEntitySet="executive_council">
+          <ScalarProperty Name="committee_id" ColumnName="committee_id" />
+          <ScalarProperty Name="position_id" ColumnName="position_id" />
+          <ScalarProperty Name="committee_name_id" ColumnName="committee_name_id" />
+          <ScalarProperty Name="commitee_head" ColumnName="commitee_head" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="leaders">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.leader">
+        <MappingFragment StoreEntitySet="leader">
+          <ScalarProperty Name="position_id" ColumnName="position_id" />
+          <ScalarProperty Name="begin_term" ColumnName="begin_term" />
+          <ScalarProperty Name="end_term" ColumnName="end_term" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="officer_title">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.officer_title">
+        <MappingFragment StoreEntitySet="officer_title">
+          <ScalarProperty Name="officer_title_id" ColumnName="officer_title_id" />
+          <ScalarProperty Name="officer_title_name" ColumnName="officer_title_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="planned_event">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.planned_event">
+        <MappingFragment StoreEntitySet="planned_event">
+          <ScalarProperty Name="event_id" ColumnName="event_id" />
+          <ScalarProperty Name="event_name" ColumnName="event_name" />
+          <ScalarProperty Name="begin_date" ColumnName="begin_date" />
+          <ScalarProperty Name="end_date" ColumnName="end_date" />
+          <ScalarProperty Name="event_location" ColumnName="event_location" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="points">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.point">
+        <MappingFragment StoreEntitySet="point">
+          <ScalarProperty Name="point_id" ColumnName="point_id" />
+          <ScalarProperty Name="earned_by" ColumnName="earned_by" />
+          <ScalarProperty Name="point_type_id" ColumnName="point_type_id" />
+          <ScalarProperty Name="logged_by" ColumnName="logged_by" />
+          <ScalarProperty Name="event_attended" ColumnName="event_attended" />
+          <ScalarProperty Name="criteria_met" ColumnName="criteria_met" />
+          <ScalarProperty Name="date_given" ColumnName="date_given" />
+          <ScalarProperty Name="amount" ColumnName="amount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="point_requirement">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.point_requirement">
+        <MappingFragment StoreEntitySet="point_requirement">
+          <ScalarProperty Name="point_requirement_id" ColumnName="point_requirement_id" />
+          <ScalarProperty Name="point_type_id" ColumnName="point_type_id" />
+          <ScalarProperty Name="status_id" ColumnName="status_id" />
+          <ScalarProperty Name="minimum_amount" ColumnName="minimum_amount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="point_type">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.point_type">
+        <MappingFragment StoreEntitySet="point_type">
+          <ScalarProperty Name="point_type_id" ColumnName="point_type_id" />
+          <ScalarProperty Name="point_type_name" ColumnName="point_type_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="point_type_grouping">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.point_type_grouping">
+        <MappingFragment StoreEntitySet="point_type_grouping">
+          <ScalarProperty Name="type_grouping_id" ColumnName="type_grouping_id" />
+          <ScalarProperty Name="point_type_id" ColumnName="point_type_id" />
+          <ScalarProperty Name="event_id" ColumnName="event_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="point_type_permission">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.point_type_permission">
+        <MappingFragment StoreEntitySet="point_type_permission">
+          <ScalarProperty Name="point_type_permission_id" ColumnName="point_type_permission_id" />
+          <ScalarProperty Name="point_type_id" ColumnName="point_type_id" />
+          <ScalarProperty Name="officer_title_id" ColumnName="officer_title_id" />
+          <ScalarProperty Name="committee_name_id" ColumnName="committee_name_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="status">
+      <EntityTypeMapping TypeName="DeltaRhoDBModel.status">
+        <MappingFragment StoreEntitySet="status">
+          <ScalarProperty Name="status_id" ColumnName="status_id" />
+          <ScalarProperty Name="status_name" ColumnName="status_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
