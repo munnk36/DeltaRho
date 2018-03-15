@@ -1,0 +1,13 @@
+﻿<nav class="navbar navbar-inverse sticky-top nav-custom ">
+    <div class="container-fluid">
+        @Html.ActionLink("ΔΡ - Phi Sigma Pi at UNC", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        <ul class="nav list-inline">
+            <li class="list-inline-item">@Html.ActionLink("Home", "Index", "Home")</li>
+            <li class="list-inline-item"><a href="http://phisigmapi.org">ΦΣΠ</a></li>
+            <li class="list-inline-item">@Html.ActionLink("About", "About", "Home")</li>
+            <li class="list-inline-item">@Html.ActionLink("Contact", "Contact", "Home")</li>
+            <li class="list-inline-item">@Html.Partial("../Shared/_LoginPartial")</li>
+        </ul>
+
+    </div>
+</nav>

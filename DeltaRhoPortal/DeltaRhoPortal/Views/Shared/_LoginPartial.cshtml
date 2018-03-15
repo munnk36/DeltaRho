@@ -1,0 +1,13 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <li class="list-inline-item">@Html.ActionLink("My Account", "Index", "Claims")</li>
+    <li class="list-inline-item">@Html.ActionLink("Sign out", "SignOut", "Home")</li>
+}
+else
+{
+    <li class="list-inline-item">
+        <div class="btn btn-primary">
+            <a href="@Url.Action("SignIn", "Home")">Bears Sign-In</a>
+        </div>
+    </li>
+}

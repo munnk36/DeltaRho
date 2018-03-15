@@ -1,24 +1,17 @@
 ﻿@{
     Layout = "/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "titley";
+    ViewBag.Title = "Home";
 }
-    @if (!Request.IsAuthenticated)
-    {
+@if (!Request.IsAuthenticated)
+{
+    <div class="btn btn-primary">
+        <a href="@Url.Action("SignIn", "Home")">Bears Sign-In</a>
+    </div>
+} else
+{
 
-        <div class="btn-group-lg" role="group" aria-label="Button group with nested dropdown">
-            <a class="btn btn-secondary" href="@Url.Action("SignIn", "Home")">Brother Sign In</a>
-        </div>
-
-    }
-    else
-    {
-        <span><br />Hello @((User.Identity as System.Security.Claims.ClaimsIdentity)?.FindFirst("name")?.Value)</span>
-        <br /><br />
-        @Html.ActionLink("See Your Claims", "Index", "Claims")
-        <br /><br />
-        @Html.ActionLink("Sign out", "SignOut", "Home")
-    }
-    @if (!string.IsNullOrWhiteSpace(Request.QueryString["errormessage"]))
-    {
-        <div style="background-color:red;color:white;font-weight: bold;">Error: @Request.QueryString["errormessage"]</div>
-    }
+}
+@if (!string.IsNullOrWhiteSpace(Request.QueryString["errormessage"]))
+{
+    <div style="background-color:red;color:white;font-weight: bold;">Error: @Request.QueryString["errormessage"]</div>
+}
