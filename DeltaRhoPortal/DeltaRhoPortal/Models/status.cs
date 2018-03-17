@@ -17,7 +17,7 @@ namespace DeltaRhoPortal.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public status()
         {
-            this.brothers = new HashSet<brother>();
+            this.members = new HashSet<member>();
             this.point_requirement = new HashSet<point_requirement>();
         }
     
@@ -25,7 +25,7 @@ namespace DeltaRhoPortal.Models
         public string status_name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<brother> brothers { get; set; }
+        public virtual ICollection<member> members { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<point_requirement> point_requirement { get; set; }
     }

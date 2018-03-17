@@ -4,15 +4,15 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DeltaRhoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="brother">
+      <Schema Namespace="DeltaRhoDBModels.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="committee_member">
           <Key>
-            <PropertyRef Name="brother_pdid" />
+            <PropertyRef Name="committee_member_id" />
           </Key>
-          <Property Name="brother_pdid" Type="int" Nullable="false" />
-          <Property Name="status_id" Type="int" />
-          <Property Name="brother_bio" Type="varchar" MaxLength="1000" />
-          <Property Name="headshot" Type="image" />
+          <Property Name="committee_member_id" Type="int" Nullable="false" />
+          <Property Name="member_id" Type="int" Nullable="false" />
+          <Property Name="committee_name_id" Type="int" Nullable="false" />
+          <Property Name="semester" Type="nvarchar" MaxLength="4" Nullable="false" />
         </EntityType>
         <EntityType Name="committee_names">
           <Key>
@@ -28,7 +28,6 @@
           <Property Name="officer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="position_id" Type="int" />
           <Property Name="officer_title_id" Type="int" />
-          <Property Name="position_holder" Type="int" />
         </EntityType>
         <EntityType Name="executive_council">
           <Key>
@@ -37,7 +36,21 @@
           <Property Name="committee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="position_id" Type="int" />
           <Property Name="committee_name_id" Type="int" />
-          <Property Name="commitee_head" Type="int" />
+        </EntityType>
+        <EntityType Name="initiation_application">
+          <Key>
+            <PropertyRef Name="application_id" />
+          </Key>
+          <Property Name="application_id" Type="int" Nullable="false" />
+          <Property Name="member_id" Type="int" Nullable="false" />
+          <Property Name="gpa" Type="decimal" Precision="3" Scale="2" />
+          <Property Name="q1" Type="nvarchar" MaxLength="256" />
+          <Property Name="q2" Type="nvarchar" MaxLength="256" />
+          <Property Name="q3" Type="nvarchar" MaxLength="256" />
+          <Property Name="q4" Type="nvarchar" MaxLength="256" />
+          <Property Name="q5" Type="nvarchar" MaxLength="256" />
+          <Property Name="q6" Type="nvarchar" MaxLength="256" />
+          <Property Name="interest" Type="int" />
         </EntityType>
         <EntityType Name="leader">
           <Key>
@@ -46,6 +59,23 @@
           <Property Name="position_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="begin_term" Type="date" />
           <Property Name="end_term" Type="date" />
+          <Property Name="member_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="member">
+          <Key>
+            <PropertyRef Name="member_id" />
+          </Key>
+          <Property Name="member_id" Type="int" Nullable="false" />
+          <Property Name="student_pdid" Type="nvarchar" MaxLength="8" />
+          <Property Name="status_id" Type="int" />
+          <Property Name="brother_bio" Type="nvarchar" MaxLength="500" />
+          <Property Name="headshot" Type="image" />
+          <Property Name="full_name" Type="nvarchar" MaxLength="64" />
+          <Property Name="preferred_pronouns" Type="nvarchar" MaxLength="16" />
+          <Property Name="expected_graduation" Type="date" />
+          <Property Name="birthday" Type="date" />
+          <Property Name="major_minor" Type="nvarchar" MaxLength="64" />
+          <Property Name="nickname" Type="nvarchar" MaxLength="16" />
         </EntityType>
         <EntityType Name="officer_title">
           <Key>
@@ -69,13 +99,13 @@
             <PropertyRef Name="point_id" />
           </Key>
           <Property Name="point_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="earned_by" Type="int" Nullable="false" />
           <Property Name="point_type_id" Type="int" Nullable="false" />
-          <Property Name="logged_by" Type="int" Nullable="false" />
           <Property Name="event_attended" Type="int" />
           <Property Name="criteria_met" Type="varchar" MaxLength="63" />
           <Property Name="date_given" Type="datetime" />
           <Property Name="amount" Type="decimal" Precision="4" Scale="2" />
+          <Property Name="given_by" Type="int" Nullable="false" />
+          <Property Name="given_to" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="point_requirement">
           <Key>
@@ -117,15 +147,27 @@
           <Property Name="status_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="status_name" Type="varchar" MaxLength="255" Nullable="false" />
         </EntityType>
-        <Association Name="FK__brother__status___5165187F">
-          <End Role="status" Type="Self.status" Multiplicity="0..1" />
-          <End Role="brother" Type="Self.brother" Multiplicity="*" />
+        <Association Name="FK__committee__commi__1DB06A4F">
+          <End Role="committee_names" Type="Self.committee_names" Multiplicity="1" />
+          <End Role="committee_member" Type="Self.committee_member" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="status">
-              <PropertyRef Name="status_id" />
+            <Principal Role="committee_names">
+              <PropertyRef Name="committee_name_id" />
             </Principal>
-            <Dependent Role="brother">
-              <PropertyRef Name="status_id" />
+            <Dependent Role="committee_member">
+              <PropertyRef Name="committee_name_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__committee__membe__1CBC4616">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="committee_member" Type="Self.committee_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="committee_member">
+              <PropertyRef Name="member_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -138,18 +180,6 @@
             </Principal>
             <Dependent Role="executive_council">
               <PropertyRef Name="committee_name_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__executive__commi__628FA481">
-          <End Role="brother" Type="Self.brother" Multiplicity="0..1" />
-          <End Role="executive_council" Type="Self.executive_council" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="brother">
-              <PropertyRef Name="brother_pdid" />
-            </Principal>
-            <Dependent Role="executive_council">
-              <PropertyRef Name="commitee_head" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -177,18 +207,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__executive__posit__5812160E">
-          <End Role="brother" Type="Self.brother" Multiplicity="0..1" />
-          <End Role="executive_board" Type="Self.executive_board" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="brother">
-              <PropertyRef Name="brother_pdid" />
-            </Principal>
-            <Dependent Role="executive_board">
-              <PropertyRef Name="position_holder" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__executive__posit__60A75C0F">
           <End Role="leader" Type="Self.leader" Multiplicity="0..1" />
           <End Role="executive_council" Type="Self.executive_council" Multiplicity="*" />
@@ -201,15 +219,39 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__point__earned_by__73BA3083">
-          <End Role="brother" Type="Self.brother" Multiplicity="1" />
-          <End Role="point" Type="Self.point" Multiplicity="*" />
+        <Association Name="FK__initiatio__membe__208CD6FA">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="initiation_application" Type="Self.initiation_application" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="brother">
-              <PropertyRef Name="brother_pdid" />
+            <Principal Role="member">
+              <PropertyRef Name="member_id" />
             </Principal>
-            <Dependent Role="point">
-              <PropertyRef Name="earned_by" />
+            <Dependent Role="initiation_application">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__leader__member_i__19DFD96B">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="leader" Type="Self.leader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="leader">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Member__headshot__17036CC0">
+          <End Role="status" Type="Self.status" Multiplicity="0..1" />
+          <End Role="member" Type="Self.member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="member">
+              <PropertyRef Name="status_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -225,15 +267,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__point__logged_by__75A278F5">
-          <End Role="brother" Type="Self.brother" Multiplicity="1" />
+        <Association Name="FK__point__given_by__17F790F9">
+          <End Role="leader" Type="Self.leader" Multiplicity="1" />
           <End Role="point" Type="Self.point" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="brother">
-              <PropertyRef Name="brother_pdid" />
+            <Principal Role="leader">
+              <PropertyRef Name="position_id" />
             </Principal>
             <Dependent Role="point">
-              <PropertyRef Name="logged_by" />
+              <PropertyRef Name="given_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__point__given_to__18EBB532">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="point" Type="Self.point" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="point">
+              <PropertyRef Name="given_to" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -333,12 +387,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DeltaRhoDBModelStoreContainer">
-          <EntitySet Name="brother" EntityType="Self.brother" Schema="dbo" store:Type="Tables" />
+        <EntityContainer Name="DeltaRhoDBModelsStoreContainer">
+          <EntitySet Name="committee_member" EntityType="Self.committee_member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="committee_names" EntityType="Self.committee_names" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="executive_board" EntityType="Self.executive_board" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="executive_council" EntityType="Self.executive_council" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="initiation_application" EntityType="Self.initiation_application" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="leader" EntityType="Self.leader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="member" EntityType="Self.member" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="officer_title" EntityType="Self.officer_title" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="planned_event" EntityType="Self.planned_event" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="point" EntityType="Self.point" Schema="dbo" store:Type="Tables" />
@@ -347,16 +403,16 @@
           <EntitySet Name="point_type_grouping" EntityType="Self.point_type_grouping" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="point_type_permission" EntityType="Self.point_type_permission" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__brother__status___5165187F" Association="Self.FK__brother__status___5165187F">
-            <End Role="status" EntitySet="status" />
-            <End Role="brother" EntitySet="brother" />
+          <AssociationSet Name="FK__committee__commi__1DB06A4F" Association="Self.FK__committee__commi__1DB06A4F">
+            <End Role="committee_names" EntitySet="committee_names" />
+            <End Role="committee_member" EntitySet="committee_member" />
+          </AssociationSet>
+          <AssociationSet Name="FK__committee__membe__1CBC4616" Association="Self.FK__committee__membe__1CBC4616">
+            <End Role="member" EntitySet="member" />
+            <End Role="committee_member" EntitySet="committee_member" />
           </AssociationSet>
           <AssociationSet Name="FK__executive__commi__619B8048" Association="Self.FK__executive__commi__619B8048">
             <End Role="committee_names" EntitySet="committee_names" />
-            <End Role="executive_council" EntitySet="executive_council" />
-          </AssociationSet>
-          <AssociationSet Name="FK__executive__commi__628FA481" Association="Self.FK__executive__commi__628FA481">
-            <End Role="brother" EntitySet="brother" />
             <End Role="executive_council" EntitySet="executive_council" />
           </AssociationSet>
           <AssociationSet Name="FK__executive__offic__571DF1D5" Association="Self.FK__executive__offic__571DF1D5">
@@ -367,24 +423,32 @@
             <End Role="leader" EntitySet="leader" />
             <End Role="executive_board" EntitySet="executive_board" />
           </AssociationSet>
-          <AssociationSet Name="FK__executive__posit__5812160E" Association="Self.FK__executive__posit__5812160E">
-            <End Role="brother" EntitySet="brother" />
-            <End Role="executive_board" EntitySet="executive_board" />
-          </AssociationSet>
           <AssociationSet Name="FK__executive__posit__60A75C0F" Association="Self.FK__executive__posit__60A75C0F">
             <End Role="leader" EntitySet="leader" />
             <End Role="executive_council" EntitySet="executive_council" />
           </AssociationSet>
-          <AssociationSet Name="FK__point__earned_by__73BA3083" Association="Self.FK__point__earned_by__73BA3083">
-            <End Role="brother" EntitySet="brother" />
-            <End Role="point" EntitySet="point" />
+          <AssociationSet Name="FK__initiatio__membe__208CD6FA" Association="Self.FK__initiatio__membe__208CD6FA">
+            <End Role="member" EntitySet="member" />
+            <End Role="initiation_application" EntitySet="initiation_application" />
+          </AssociationSet>
+          <AssociationSet Name="FK__leader__member_i__19DFD96B" Association="Self.FK__leader__member_i__19DFD96B">
+            <End Role="member" EntitySet="member" />
+            <End Role="leader" EntitySet="leader" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Member__headshot__17036CC0" Association="Self.FK__Member__headshot__17036CC0">
+            <End Role="status" EntitySet="status" />
+            <End Role="member" EntitySet="member" />
           </AssociationSet>
           <AssociationSet Name="FK__point__event_att__76969D2E" Association="Self.FK__point__event_att__76969D2E">
             <End Role="planned_event" EntitySet="planned_event" />
             <End Role="point" EntitySet="point" />
           </AssociationSet>
-          <AssociationSet Name="FK__point__logged_by__75A278F5" Association="Self.FK__point__logged_by__75A278F5">
-            <End Role="brother" EntitySet="brother" />
+          <AssociationSet Name="FK__point__given_by__17F790F9" Association="Self.FK__point__given_by__17F790F9">
+            <End Role="leader" EntitySet="leader" />
+            <End Role="point" EntitySet="point" />
+          </AssociationSet>
+          <AssociationSet Name="FK__point__given_to__18EBB532" Association="Self.FK__point__given_to__18EBB532">
+            <End Role="member" EntitySet="member" />
             <End Role="point" EntitySet="point" />
           </AssociationSet>
           <AssociationSet Name="FK__point__point_typ__74AE54BC" Association="Self.FK__point__point_typ__74AE54BC">
@@ -424,20 +488,17 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="DeltaRhoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="brother">
+      <Schema Namespace="DeltaRhoDBModels" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="committee_member">
           <Key>
-            <PropertyRef Name="brother_pdid" />
+            <PropertyRef Name="committee_member_id" />
           </Key>
-          <Property Name="brother_pdid" Type="Int32" Nullable="false" />
-          <Property Name="status_id" Type="Int32" />
-          <Property Name="brother_bio" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="headshot" Type="Binary" MaxLength="Max" FixedLength="false" />
-          <NavigationProperty Name="status" Relationship="Self.FK__brother__status___5165187F" FromRole="brother" ToRole="status" />
-          <NavigationProperty Name="executive_council" Relationship="Self.FK__executive__commi__628FA481" FromRole="brother" ToRole="executive_council" />
-          <NavigationProperty Name="executive_board" Relationship="Self.FK__executive__posit__5812160E" FromRole="brother" ToRole="executive_board" />
-          <NavigationProperty Name="points" Relationship="Self.FK__point__earned_by__73BA3083" FromRole="brother" ToRole="point" />
-          <NavigationProperty Name="points1" Relationship="Self.FK__point__logged_by__75A278F5" FromRole="brother" ToRole="point" />
+          <Property Name="committee_member_id" Type="Int32" Nullable="false" />
+          <Property Name="member_id" Type="Int32" Nullable="false" />
+          <Property Name="committee_name_id" Type="Int32" Nullable="false" />
+          <Property Name="semester" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="committee_names" Relationship="Self.FK__committee__commi__1DB06A4F" FromRole="committee_member" ToRole="committee_names" />
+          <NavigationProperty Name="member" Relationship="Self.FK__committee__membe__1CBC4616" FromRole="committee_member" ToRole="member" />
         </EntityType>
         <EntityType Name="committee_names">
           <Key>
@@ -445,6 +506,7 @@
           </Key>
           <Property Name="committee_name_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="committee_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="committee_member" Relationship="Self.FK__committee__commi__1DB06A4F" FromRole="committee_names" ToRole="committee_member" />
           <NavigationProperty Name="executive_council" Relationship="Self.FK__executive__commi__619B8048" FromRole="committee_names" ToRole="executive_council" />
           <NavigationProperty Name="point_type_permission" Relationship="Self.FK__point_typ__commi__70DDC3D8" FromRole="committee_names" ToRole="point_type_permission" />
         </EntityType>
@@ -455,8 +517,6 @@
           <Property Name="officer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="position_id" Type="Int32" />
           <Property Name="officer_title_id" Type="Int32" />
-          <Property Name="position_holder" Type="Int32" />
-          <NavigationProperty Name="brother" Relationship="Self.FK__executive__posit__5812160E" FromRole="executive_board" ToRole="brother" />
           <NavigationProperty Name="officer_title" Relationship="Self.FK__executive__offic__571DF1D5" FromRole="executive_board" ToRole="officer_title" />
           <NavigationProperty Name="leader" Relationship="Self.FK__executive__posit__5629CD9C" FromRole="executive_board" ToRole="leader" />
         </EntityType>
@@ -467,10 +527,24 @@
           <Property Name="committee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="position_id" Type="Int32" />
           <Property Name="committee_name_id" Type="Int32" />
-          <Property Name="commitee_head" Type="Int32" />
-          <NavigationProperty Name="brother" Relationship="Self.FK__executive__commi__628FA481" FromRole="executive_council" ToRole="brother" />
           <NavigationProperty Name="committee_names" Relationship="Self.FK__executive__commi__619B8048" FromRole="executive_council" ToRole="committee_names" />
           <NavigationProperty Name="leader" Relationship="Self.FK__executive__posit__60A75C0F" FromRole="executive_council" ToRole="leader" />
+        </EntityType>
+        <EntityType Name="initiation_application">
+          <Key>
+            <PropertyRef Name="application_id" />
+          </Key>
+          <Property Name="application_id" Type="Int32" Nullable="false" />
+          <Property Name="member_id" Type="Int32" Nullable="false" />
+          <Property Name="gpa" Type="Decimal" Precision="3" Scale="2" />
+          <Property Name="q1" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="q2" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="q3" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="q4" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="q5" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="q6" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="interest" Type="Int32" />
+          <NavigationProperty Name="member" Relationship="Self.FK__initiatio__membe__208CD6FA" FromRole="initiation_application" ToRole="member" />
         </EntityType>
         <EntityType Name="leader">
           <Key>
@@ -479,8 +553,32 @@
           <Property Name="position_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="begin_term" Type="DateTime" Precision="0" />
           <Property Name="end_term" Type="DateTime" Precision="0" />
+          <Property Name="member_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="executive_board" Relationship="Self.FK__executive__posit__5629CD9C" FromRole="leader" ToRole="executive_board" />
           <NavigationProperty Name="executive_council" Relationship="Self.FK__executive__posit__60A75C0F" FromRole="leader" ToRole="executive_council" />
+          <NavigationProperty Name="member" Relationship="Self.FK__leader__member_i__19DFD96B" FromRole="leader" ToRole="member" />
+          <NavigationProperty Name="points" Relationship="Self.FK__point__given_by__17F790F9" FromRole="leader" ToRole="point" />
+        </EntityType>
+        <EntityType Name="member">
+          <Key>
+            <PropertyRef Name="member_id" />
+          </Key>
+          <Property Name="member_id" Type="Int32" Nullable="false" />
+          <Property Name="student_pdid" Type="String" MaxLength="8" FixedLength="false" Unicode="true" />
+          <Property Name="status_id" Type="Int32" />
+          <Property Name="brother_bio" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="headshot" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="full_name" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="preferred_pronouns" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <Property Name="expected_graduation" Type="DateTime" Precision="0" />
+          <Property Name="birthday" Type="DateTime" Precision="0" />
+          <Property Name="major_minor" Type="String" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="nickname" Type="String" MaxLength="16" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="committee_member" Relationship="Self.FK__committee__membe__1CBC4616" FromRole="member" ToRole="committee_member" />
+          <NavigationProperty Name="initiation_application" Relationship="Self.FK__initiatio__membe__208CD6FA" FromRole="member" ToRole="initiation_application" />
+          <NavigationProperty Name="leaders" Relationship="Self.FK__leader__member_i__19DFD96B" FromRole="member" ToRole="leader" />
+          <NavigationProperty Name="status" Relationship="Self.FK__Member__headshot__17036CC0" FromRole="member" ToRole="status" />
+          <NavigationProperty Name="points" Relationship="Self.FK__point__given_to__18EBB532" FromRole="member" ToRole="point" />
         </EntityType>
         <EntityType Name="officer_title">
           <Key>
@@ -508,15 +606,15 @@
             <PropertyRef Name="point_id" />
           </Key>
           <Property Name="point_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="earned_by" Type="Int32" Nullable="false" />
           <Property Name="point_type_id" Type="Int32" Nullable="false" />
-          <Property Name="logged_by" Type="Int32" Nullable="false" />
           <Property Name="event_attended" Type="Int32" />
           <Property Name="criteria_met" Type="String" MaxLength="63" FixedLength="false" Unicode="false" />
           <Property Name="date_given" Type="DateTime" Precision="3" />
           <Property Name="amount" Type="Decimal" Precision="4" Scale="2" />
-          <NavigationProperty Name="brother" Relationship="Self.FK__point__earned_by__73BA3083" FromRole="point" ToRole="brother" />
-          <NavigationProperty Name="brother1" Relationship="Self.FK__point__logged_by__75A278F5" FromRole="point" ToRole="brother" />
+          <Property Name="given_by" Type="Int32" Nullable="false" />
+          <Property Name="given_to" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="leader" Relationship="Self.FK__point__given_by__17F790F9" FromRole="point" ToRole="leader" />
+          <NavigationProperty Name="member" Relationship="Self.FK__point__given_to__18EBB532" FromRole="point" ToRole="member" />
           <NavigationProperty Name="planned_event" Relationship="Self.FK__point__event_att__76969D2E" FromRole="point" ToRole="planned_event" />
           <NavigationProperty Name="point_type" Relationship="Self.FK__point__point_typ__74AE54BC" FromRole="point" ToRole="point_type" />
         </EntityType>
@@ -570,66 +668,30 @@
           </Key>
           <Property Name="status_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="status_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="brothers" Relationship="Self.FK__brother__status___5165187F" FromRole="status" ToRole="brother" />
+          <NavigationProperty Name="members" Relationship="Self.FK__Member__headshot__17036CC0" FromRole="status" ToRole="member" />
           <NavigationProperty Name="point_requirement" Relationship="Self.FK__point_req__statu__68487DD7" FromRole="status" ToRole="point_requirement" />
         </EntityType>
-        <Association Name="FK__brother__status___5165187F">
-          <End Role="status" Type="Self.status" Multiplicity="0..1" />
-          <End Role="brother" Type="Self.brother" Multiplicity="*" />
+        <Association Name="FK__committee__commi__1DB06A4F">
+          <End Role="committee_names" Type="Self.committee_names" Multiplicity="1" />
+          <End Role="committee_member" Type="Self.committee_member" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="status">
-              <PropertyRef Name="status_id" />
+            <Principal Role="committee_names">
+              <PropertyRef Name="committee_name_id" />
             </Principal>
-            <Dependent Role="brother">
-              <PropertyRef Name="status_id" />
+            <Dependent Role="committee_member">
+              <PropertyRef Name="committee_name_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__executive__commi__628FA481">
-          <End Role="brother" Type="Self.brother" Multiplicity="0..1" />
-          <End Role="executive_council" Type="Self.executive_council" Multiplicity="*" />
+        <Association Name="FK__committee__membe__1CBC4616">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="committee_member" Type="Self.committee_member" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="brother">
-              <PropertyRef Name="brother_pdid" />
+            <Principal Role="member">
+              <PropertyRef Name="member_id" />
             </Principal>
-            <Dependent Role="executive_council">
-              <PropertyRef Name="commitee_head" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__executive__posit__5812160E">
-          <End Role="brother" Type="Self.brother" Multiplicity="0..1" />
-          <End Role="executive_board" Type="Self.executive_board" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="brother">
-              <PropertyRef Name="brother_pdid" />
-            </Principal>
-            <Dependent Role="executive_board">
-              <PropertyRef Name="position_holder" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__point__earned_by__73BA3083">
-          <End Role="brother" Type="Self.brother" Multiplicity="1" />
-          <End Role="point" Type="Self.point" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="brother">
-              <PropertyRef Name="brother_pdid" />
-            </Principal>
-            <Dependent Role="point">
-              <PropertyRef Name="earned_by" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__point__logged_by__75A278F5">
-          <End Role="brother" Type="Self.brother" Multiplicity="1" />
-          <End Role="point" Type="Self.point" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="brother">
-              <PropertyRef Name="brother_pdid" />
-            </Principal>
-            <Dependent Role="point">
-              <PropertyRef Name="logged_by" />
+            <Dependent Role="committee_member">
+              <PropertyRef Name="member_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -690,6 +752,66 @@
             </Principal>
             <Dependent Role="executive_council">
               <PropertyRef Name="position_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__initiatio__membe__208CD6FA">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="initiation_application" Type="Self.initiation_application" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="initiation_application">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__leader__member_i__19DFD96B">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="leader" Type="Self.leader" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="leader">
+              <PropertyRef Name="member_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__point__given_by__17F790F9">
+          <End Role="leader" Type="Self.leader" Multiplicity="1" />
+          <End Role="point" Type="Self.point" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="leader">
+              <PropertyRef Name="position_id" />
+            </Principal>
+            <Dependent Role="point">
+              <PropertyRef Name="given_by" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Member__headshot__17036CC0">
+          <End Role="status" Type="Self.status" Multiplicity="0..1" />
+          <End Role="member" Type="Self.member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="status_id" />
+            </Principal>
+            <Dependent Role="member">
+              <PropertyRef Name="status_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__point__given_to__18EBB532">
+          <End Role="member" Type="Self.member" Multiplicity="1" />
+          <End Role="point" Type="Self.point" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="member">
+              <PropertyRef Name="member_id" />
+            </Principal>
+            <Dependent Role="point">
+              <PropertyRef Name="given_to" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -789,12 +911,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="DeltaRhoDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="brothers" EntityType="Self.brother" />
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="committee_member" EntityType="Self.committee_member" />
           <EntitySet Name="committee_names" EntityType="Self.committee_names" />
           <EntitySet Name="executive_board" EntityType="Self.executive_board" />
           <EntitySet Name="executive_council" EntityType="Self.executive_council" />
+          <EntitySet Name="initiation_application" EntityType="Self.initiation_application" />
           <EntitySet Name="leaders" EntityType="Self.leader" />
+          <EntitySet Name="members" EntityType="Self.member" />
           <EntitySet Name="officer_title" EntityType="Self.officer_title" />
           <EntitySet Name="planned_event" EntityType="Self.planned_event" />
           <EntitySet Name="points" EntityType="Self.point" />
@@ -803,25 +927,13 @@
           <EntitySet Name="point_type_grouping" EntityType="Self.point_type_grouping" />
           <EntitySet Name="point_type_permission" EntityType="Self.point_type_permission" />
           <EntitySet Name="status" EntityType="Self.status" />
-          <AssociationSet Name="FK__brother__status___5165187F" Association="Self.FK__brother__status___5165187F">
-            <End Role="status" EntitySet="status" />
-            <End Role="brother" EntitySet="brothers" />
+          <AssociationSet Name="FK__committee__commi__1DB06A4F" Association="Self.FK__committee__commi__1DB06A4F">
+            <End Role="committee_names" EntitySet="committee_names" />
+            <End Role="committee_member" EntitySet="committee_member" />
           </AssociationSet>
-          <AssociationSet Name="FK__executive__commi__628FA481" Association="Self.FK__executive__commi__628FA481">
-            <End Role="brother" EntitySet="brothers" />
-            <End Role="executive_council" EntitySet="executive_council" />
-          </AssociationSet>
-          <AssociationSet Name="FK__executive__posit__5812160E" Association="Self.FK__executive__posit__5812160E">
-            <End Role="brother" EntitySet="brothers" />
-            <End Role="executive_board" EntitySet="executive_board" />
-          </AssociationSet>
-          <AssociationSet Name="FK__point__earned_by__73BA3083" Association="Self.FK__point__earned_by__73BA3083">
-            <End Role="brother" EntitySet="brothers" />
-            <End Role="point" EntitySet="points" />
-          </AssociationSet>
-          <AssociationSet Name="FK__point__logged_by__75A278F5" Association="Self.FK__point__logged_by__75A278F5">
-            <End Role="brother" EntitySet="brothers" />
-            <End Role="point" EntitySet="points" />
+          <AssociationSet Name="FK__committee__membe__1CBC4616" Association="Self.FK__committee__membe__1CBC4616">
+            <End Role="member" EntitySet="members" />
+            <End Role="committee_member" EntitySet="committee_member" />
           </AssociationSet>
           <AssociationSet Name="FK__executive__commi__619B8048" Association="Self.FK__executive__commi__619B8048">
             <End Role="committee_names" EntitySet="committee_names" />
@@ -842,6 +954,26 @@
           <AssociationSet Name="FK__executive__posit__60A75C0F" Association="Self.FK__executive__posit__60A75C0F">
             <End Role="leader" EntitySet="leaders" />
             <End Role="executive_council" EntitySet="executive_council" />
+          </AssociationSet>
+          <AssociationSet Name="FK__initiatio__membe__208CD6FA" Association="Self.FK__initiatio__membe__208CD6FA">
+            <End Role="member" EntitySet="members" />
+            <End Role="initiation_application" EntitySet="initiation_application" />
+          </AssociationSet>
+          <AssociationSet Name="FK__leader__member_i__19DFD96B" Association="Self.FK__leader__member_i__19DFD96B">
+            <End Role="member" EntitySet="members" />
+            <End Role="leader" EntitySet="leaders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__point__given_by__17F790F9" Association="Self.FK__point__given_by__17F790F9">
+            <End Role="leader" EntitySet="leaders" />
+            <End Role="point" EntitySet="points" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Member__headshot__17036CC0" Association="Self.FK__Member__headshot__17036CC0">
+            <End Role="status" EntitySet="status" />
+            <End Role="member" EntitySet="members" />
+          </AssociationSet>
+          <AssociationSet Name="FK__point__given_to__18EBB532" Association="Self.FK__point__given_to__18EBB532">
+            <End Role="member" EntitySet="members" />
+            <End Role="point" EntitySet="points" />
           </AssociationSet>
           <AssociationSet Name="FK__point_typ__offic__6FE99F9F" Association="Self.FK__point_typ__offic__6FE99F9F">
             <End Role="officer_title" EntitySet="officer_title" />
@@ -881,19 +1013,19 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DeltaRhoDBModelStoreContainer" CdmEntityContainer="DeltaRhoDBEntities">
-          <EntitySetMapping Name="brothers">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.brother">
-              <MappingFragment StoreEntitySet="brother">
-                <ScalarProperty Name="brother_pdid" ColumnName="brother_pdid" />
-                <ScalarProperty Name="status_id" ColumnName="status_id" />
-                <ScalarProperty Name="brother_bio" ColumnName="brother_bio" />
-                <ScalarProperty Name="headshot" ColumnName="headshot" />
+        <EntityContainerMapping StorageEntityContainer="DeltaRhoDBModelsStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="committee_member">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.committee_member">
+              <MappingFragment StoreEntitySet="committee_member">
+                <ScalarProperty Name="committee_member_id" ColumnName="committee_member_id" />
+                <ScalarProperty Name="member_id" ColumnName="member_id" />
+                <ScalarProperty Name="committee_name_id" ColumnName="committee_name_id" />
+                <ScalarProperty Name="semester" ColumnName="semester" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="committee_names">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.committee_names">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.committee_names">
               <MappingFragment StoreEntitySet="committee_names">
                 <ScalarProperty Name="committee_name_id" ColumnName="committee_name_id" />
                 <ScalarProperty Name="committee_name" ColumnName="committee_name" />
@@ -901,36 +1033,68 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="executive_board">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.executive_board">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.executive_board">
               <MappingFragment StoreEntitySet="executive_board">
                 <ScalarProperty Name="officer_id" ColumnName="officer_id" />
                 <ScalarProperty Name="position_id" ColumnName="position_id" />
                 <ScalarProperty Name="officer_title_id" ColumnName="officer_title_id" />
-                <ScalarProperty Name="position_holder" ColumnName="position_holder" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="executive_council">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.executive_council">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.executive_council">
               <MappingFragment StoreEntitySet="executive_council">
                 <ScalarProperty Name="committee_id" ColumnName="committee_id" />
                 <ScalarProperty Name="position_id" ColumnName="position_id" />
                 <ScalarProperty Name="committee_name_id" ColumnName="committee_name_id" />
-                <ScalarProperty Name="commitee_head" ColumnName="commitee_head" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="initiation_application">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.initiation_application">
+              <MappingFragment StoreEntitySet="initiation_application">
+                <ScalarProperty Name="application_id" ColumnName="application_id" />
+                <ScalarProperty Name="member_id" ColumnName="member_id" />
+                <ScalarProperty Name="gpa" ColumnName="gpa" />
+                <ScalarProperty Name="q1" ColumnName="q1" />
+                <ScalarProperty Name="q2" ColumnName="q2" />
+                <ScalarProperty Name="q3" ColumnName="q3" />
+                <ScalarProperty Name="q4" ColumnName="q4" />
+                <ScalarProperty Name="q5" ColumnName="q5" />
+                <ScalarProperty Name="q6" ColumnName="q6" />
+                <ScalarProperty Name="interest" ColumnName="interest" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="leaders">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.leader">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.leader">
               <MappingFragment StoreEntitySet="leader">
                 <ScalarProperty Name="position_id" ColumnName="position_id" />
                 <ScalarProperty Name="begin_term" ColumnName="begin_term" />
                 <ScalarProperty Name="end_term" ColumnName="end_term" />
+                <ScalarProperty Name="member_id" ColumnName="member_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="members">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.member">
+              <MappingFragment StoreEntitySet="member">
+                <ScalarProperty Name="member_id" ColumnName="member_id" />
+                <ScalarProperty Name="student_pdid" ColumnName="student_pdid" />
+                <ScalarProperty Name="status_id" ColumnName="status_id" />
+                <ScalarProperty Name="brother_bio" ColumnName="brother_bio" />
+                <ScalarProperty Name="headshot" ColumnName="headshot" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="preferred_pronouns" ColumnName="preferred_pronouns" />
+                <ScalarProperty Name="expected_graduation" ColumnName="expected_graduation" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="major_minor" ColumnName="major_minor" />
+                <ScalarProperty Name="nickname" ColumnName="nickname" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="officer_title">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.officer_title">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.officer_title">
               <MappingFragment StoreEntitySet="officer_title">
                 <ScalarProperty Name="officer_title_id" ColumnName="officer_title_id" />
                 <ScalarProperty Name="officer_title_name" ColumnName="officer_title_name" />
@@ -938,7 +1102,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="planned_event">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.planned_event">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.planned_event">
               <MappingFragment StoreEntitySet="planned_event">
                 <ScalarProperty Name="event_id" ColumnName="event_id" />
                 <ScalarProperty Name="event_name" ColumnName="event_name" />
@@ -949,21 +1113,21 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="points">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.point">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.point">
               <MappingFragment StoreEntitySet="point">
                 <ScalarProperty Name="point_id" ColumnName="point_id" />
-                <ScalarProperty Name="earned_by" ColumnName="earned_by" />
                 <ScalarProperty Name="point_type_id" ColumnName="point_type_id" />
-                <ScalarProperty Name="logged_by" ColumnName="logged_by" />
                 <ScalarProperty Name="event_attended" ColumnName="event_attended" />
                 <ScalarProperty Name="criteria_met" ColumnName="criteria_met" />
                 <ScalarProperty Name="date_given" ColumnName="date_given" />
                 <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="given_by" ColumnName="given_by" />
+                <ScalarProperty Name="given_to" ColumnName="given_to" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="point_requirement">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.point_requirement">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.point_requirement">
               <MappingFragment StoreEntitySet="point_requirement">
                 <ScalarProperty Name="point_requirement_id" ColumnName="point_requirement_id" />
                 <ScalarProperty Name="point_type_id" ColumnName="point_type_id" />
@@ -973,7 +1137,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="point_type">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.point_type">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.point_type">
               <MappingFragment StoreEntitySet="point_type">
                 <ScalarProperty Name="point_type_id" ColumnName="point_type_id" />
                 <ScalarProperty Name="point_type_name" ColumnName="point_type_name" />
@@ -981,7 +1145,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="point_type_grouping">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.point_type_grouping">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.point_type_grouping">
               <MappingFragment StoreEntitySet="point_type_grouping">
                 <ScalarProperty Name="type_grouping_id" ColumnName="type_grouping_id" />
                 <ScalarProperty Name="point_type_id" ColumnName="point_type_id" />
@@ -990,7 +1154,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="point_type_permission">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.point_type_permission">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.point_type_permission">
               <MappingFragment StoreEntitySet="point_type_permission">
                 <ScalarProperty Name="point_type_permission_id" ColumnName="point_type_permission_id" />
                 <ScalarProperty Name="point_type_id" ColumnName="point_type_id" />
@@ -1000,7 +1164,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="status">
-            <EntityTypeMapping TypeName="DeltaRhoDBModel.status">
+            <EntityTypeMapping TypeName="DeltaRhoDBModels.status">
               <MappingFragment StoreEntitySet="status">
                 <ScalarProperty Name="status_id" ColumnName="status_id" />
                 <ScalarProperty Name="status_name" ColumnName="status_name" />

@@ -17,9 +17,7 @@ namespace DeltaRhoPortal.Models
         public int officer_id { get; set; }
         public Nullable<int> position_id { get; set; }
         public Nullable<int> officer_title_id { get; set; }
-        public Nullable<int> position_holder { get; set; }
     
-        public virtual brother brother { get; set; }
         public virtual officer_title officer_title { get; set; }
         public virtual leader leader { get; set; }
     }

@@ -17,6 +17,7 @@ namespace DeltaRhoPortal.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public committee_names()
         {
+            this.committee_member = new HashSet<committee_member>();
             this.executive_council = new HashSet<executive_council>();
             this.point_type_permission = new HashSet<point_type_permission>();
         }
@@ -24,6 +25,8 @@ namespace DeltaRhoPortal.Models
         public int committee_name_id { get; set; }
         public string committee_name { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<committee_member> committee_member { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<executive_council> executive_council { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

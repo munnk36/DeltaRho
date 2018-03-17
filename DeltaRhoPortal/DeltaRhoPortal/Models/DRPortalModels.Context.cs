@@ -13,10 +13,10 @@ namespace DeltaRhoPortal.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DeltaRhoDBEntities : DbContext
+    public partial class Entities : DbContext
     {
-        public DeltaRhoDBEntities()
-            : base("name=DeltaRhoDBEntities")
+        public Entities()
+            : base("name=Entities")
         {
         }
     
@@ -25,11 +25,13 @@ namespace DeltaRhoPortal.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<brother> brothers { get; set; }
+        public virtual DbSet<committee_member> committee_member { get; set; }
         public virtual DbSet<committee_names> committee_names { get; set; }
         public virtual DbSet<executive_board> executive_board { get; set; }
         public virtual DbSet<executive_council> executive_council { get; set; }
+        public virtual DbSet<initiation_application> initiation_application { get; set; }
         public virtual DbSet<leader> leaders { get; set; }
+        public virtual DbSet<member> members { get; set; }
         public virtual DbSet<officer_title> officer_title { get; set; }
         public virtual DbSet<planned_event> planned_event { get; set; }
         public virtual DbSet<point> points { get; set; }

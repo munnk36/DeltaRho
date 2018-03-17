@@ -5,7 +5,7 @@ using Microsoft.Owin.Security;
 
 namespace DeltaRhoPortal.Models
 {
-    public class IndexViewModel
+    public class ManageViewModel
     {
 
     }

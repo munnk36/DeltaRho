@@ -1,6 +1,6 @@
 ﻿@if (Request.IsAuthenticated)
 {
-    <li class="list-inline-item">@Html.ActionLink("My Account", "Index", "Claims")</li>
+    <li class="list-inline-item">@Html.ActionLink("My Account", "Index", "Manage")</li>
     <li class="list-inline-item">@Html.ActionLink("Sign out", "SignOut", "Home")</li>
 }
 else

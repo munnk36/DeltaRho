@@ -15,16 +15,16 @@ namespace DeltaRhoPortal.Models
     public partial class point
     {
         public int point_id { get; set; }
-        public int earned_by { get; set; }
         public int point_type_id { get; set; }
-        public int logged_by { get; set; }
         public Nullable<int> event_attended { get; set; }
         public string criteria_met { get; set; }
         public Nullable<System.DateTime> date_given { get; set; }
         public Nullable<decimal> amount { get; set; }
+        public int given_by { get; set; }
+        public int given_to { get; set; }
     
-        public virtual brother brother { get; set; }
-        public virtual brother brother1 { get; set; }
+        public virtual leader leader { get; set; }
+        public virtual member member { get; set; }
         public virtual planned_event planned_event { get; set; }
         public virtual point_type point_type { get; set; }
     }

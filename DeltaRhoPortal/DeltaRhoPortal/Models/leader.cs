@@ -19,15 +19,20 @@ namespace DeltaRhoPortal.Models
         {
             this.executive_board = new HashSet<executive_board>();
             this.executive_council = new HashSet<executive_council>();
+            this.points = new HashSet<point>();
         }
     
         public int position_id { get; set; }
         public Nullable<System.DateTime> begin_term { get; set; }
         public Nullable<System.DateTime> end_term { get; set; }
+        public int member_id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<executive_board> executive_board { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<executive_council> executive_council { get; set; }
+        public virtual member member { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<point> points { get; set; }
     }
 }

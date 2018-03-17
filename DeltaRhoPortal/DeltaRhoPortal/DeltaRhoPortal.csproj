@@ -185,13 +185,13 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\ClaimsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\brother.cs">
+    <Compile Include="Models\committee_member.cs">
       <DependentUpon>DRPortalModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\committee_names.cs">
@@ -218,11 +218,18 @@
     <Compile Include="Models\executive_council.cs">
       <DependentUpon>DRPortalModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\initiation_application.cs">
+      <DependentUpon>DRPortalModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\leader.cs">
       <DependentUpon>DRPortalModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\member.cs">
+      <DependentUpon>DRPortalModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\officer_title.cs">
       <DependentUpon>DRPortalModels.tt</DependentUpon>
     </Compile>
@@ -258,6 +265,14 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <EntityDeploy Include="Models\DRPortalModels.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DRPortalModels.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\DRPortalModels.edmx.diagram">
+      <DependentUpon>DRPortalModels.edmx</DependentUpon>
+    </Content>
+    <None Include="Properties\PublishProfiles\DeltaRhoPortal.pubxml" />
     <Content Include="Models\DRPortalModels.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>DRPortalModels.edmx</DependentUpon>
@@ -268,14 +283,6 @@
       <DependentUpon>DRPortalModels.edmx</DependentUpon>
       <LastGenOutput>DRPortalModels.cs</LastGenOutput>
     </Content>
-    <EntityDeploy Include="Models\DRPortalModels.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DRPortalModels.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\DRPortalModels.edmx.diagram">
-      <DependentUpon>DRPortalModels.edmx</DependentUpon>
-    </Content>
-    <None Include="Properties\PublishProfiles\DeltaRhoPortal.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -302,7 +309,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Claims\Index.cshtml" />
     <Content Include="Views\Shared\_NavBarPartial.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />

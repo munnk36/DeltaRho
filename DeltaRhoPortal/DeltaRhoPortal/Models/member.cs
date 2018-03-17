@@ -12,30 +12,37 @@ namespace DeltaRhoPortal.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class brother
+    public partial class member
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public brother()
+        public member()
         {
-            this.executive_council = new HashSet<executive_council>();
-            this.executive_board = new HashSet<executive_board>();
+            this.committee_member = new HashSet<committee_member>();
+            this.initiation_application = new HashSet<initiation_application>();
+            this.leaders = new HashSet<leader>();
             this.points = new HashSet<point>();
-            this.points1 = new HashSet<point>();
         }
     
-        public int brother_pdid { get; set; }
+        public int member_id { get; set; }
+        public string student_pdid { get; set; }
         public Nullable<int> status_id { get; set; }
         public string brother_bio { get; set; }
         public byte[] headshot { get; set; }
+        public string full_name { get; set; }
+        public string preferred_pronouns { get; set; }
+        public Nullable<System.DateTime> expected_graduation { get; set; }
+        public Nullable<System.DateTime> birthday { get; set; }
+        public string major_minor { get; set; }
+        public string nickname { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<committee_member> committee_member { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<initiation_application> initiation_application { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<leader> leaders { get; set; }
         public virtual status status { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<executive_council> executive_council { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<executive_board> executive_board { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<point> points { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<point> points1 { get; set; }
     }
 }

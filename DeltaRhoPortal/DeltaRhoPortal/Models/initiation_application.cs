@@ -12,13 +12,19 @@ namespace DeltaRhoPortal.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class executive_council
+    public partial class initiation_application
     {
-        public int committee_id { get; set; }
-        public Nullable<int> position_id { get; set; }
-        public Nullable<int> committee_name_id { get; set; }
+        public int application_id { get; set; }
+        public int member_id { get; set; }
+        public Nullable<decimal> gpa { get; set; }
+        public string q1 { get; set; }
+        public string q2 { get; set; }
+        public string q3 { get; set; }
+        public string q4 { get; set; }
+        public string q5 { get; set; }
+        public string q6 { get; set; }
+        public Nullable<int> interest { get; set; }
     
-        public virtual committee_names committee_names { get; set; }
-        public virtual leader leader { get; set; }
+        public virtual member member { get; set; }
     }
 }

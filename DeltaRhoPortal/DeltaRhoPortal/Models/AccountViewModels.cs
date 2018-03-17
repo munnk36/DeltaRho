@@ -16,4 +16,22 @@ namespace DeltaRhoPortal.Models
     {
         public string ReturnUrl { get; set; }
     }
+
+    public class MemberPermissionsModel
+    {
+        public bool isMember()
+        {
+            return false;
+        }
+
+        public bool isOfficer()
+        {
+            return false;
+        }
+
+        public List<point_type_permission> canManagePointType()
+        {
+            return null;
+        }
+    }
 }
