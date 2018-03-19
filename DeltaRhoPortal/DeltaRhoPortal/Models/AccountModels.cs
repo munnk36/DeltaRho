@@ -74,6 +74,12 @@ namespace DeltaRhoPortal.Models {
         public static List<point_type> GetPointTypePermissions(string pdid) {
             List<point_type> canEdit = new List<point_type>();
             using (var context = new Entities()) {
+
+                //yup, I know this looks ugly.
+                //essentially: get the points type which map to either a
+                //executive board officer position or executive council
+                //chairperson position which the user member is currently
+                //serving a term as.
                 canEdit = context.Database.SqlQuery<point_type>(
                     @"SELECT * FROM point_type
                     WHERE point_type.point_type_id IN
