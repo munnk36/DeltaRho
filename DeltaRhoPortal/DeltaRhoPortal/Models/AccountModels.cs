@@ -71,5 +71,40 @@ namespace DeltaRhoPortal.Models {
                 context.SaveChanges();
             }
         }
+        public static List<point_type> GetPointTypePermissions(string pdid) {
+            List<point_type> canEdit = new List<point_type>();
+            using (var context = new Entities()) {
+                canEdit = context.Database.SqlQuery<point_type>(
+                    @"SELECT * FROM point_type
+                    WHERE point_type.point_type_id IN
+	                    (SELECT point_type_id FROM point_type_permission
+	                    WHERE point_type_permission.officer_title_id IN
+		                    (SELECT officer_title_id FROM executive_board
+		                    WHERE executive_board.position_id IN
+			                    (SELECT position_id FROM leader
+			                    WHERE leader.begin_term <= GETDATE() AND leader.end_term >= GETDATE() AND leader.member_id IN
+				                    (SELECT member_id FROM member
+				                    WHERE member.student_pdid = " + pdid + @"
+				                    )
+			                    )
+		                    )
+	                    UNION
+	                    (SELECT point_type_id FROM point_type_permission
+	                    WHERE point_type_permission.committee_name_id IN
+		                    (SELECT committee_name_id FROM executive_council
+		                    WHERE executive_council.position_id IN
+			                    (SELECT position_id FROM leader
+			                    WHERE leader.begin_term <= GETDATE() AND leader.end_term >= GETDATE() AND leader.member_id IN
+				                    (SELECT member_id FROM member
+				                    WHERE member.student_pdid = " + pdid + @"
+				                    )
+			                    )
+		                    )
+	                    )
+                    )"
+                ).ToList();
+            }
+            return canEdit;
+        }
     }
 }
