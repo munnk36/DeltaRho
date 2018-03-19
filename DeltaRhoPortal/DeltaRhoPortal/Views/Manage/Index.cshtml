@@ -1,12 +1,46 @@
 ﻿@model DeltaRhoPortal.Models.ManageViewModel
 @{
-    ViewBag.Title = "Manage";
+    if (Model.Status != null && Model.Status.status_name == "Initiate") {
+        ViewBag.Title = "Welcome Initiate!";
+    }
+    else if (Model.Status == null || Model.Status.status_name == "Left/Expulsed") {
+        ViewBag.Title = "Welcome";
+    }
+    else {
+        ViewBag.Title = "Philia Brother!";
+    }
 }
 
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
-<div>
-    <h4>Manage your account</h4>
-    <hr />
-</div>
+<hr />
+@using (Html.BeginForm("Index", "Manage", FormMethod.Post)) {
+    //TODO: Form Validation
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => Model.Student_Pdid)
+    <fieldset>
+        <legend>Settings for @Model.Student_Pdid</legend>
+
+        <dl>
+            <dt>Nickname</dt>
+            <dd>@Html.TextBoxFor(model => Model.Nickname)</dd>
+
+            <dt>Preferred Pronouns</dt>
+            <dd>@Html.TextBoxFor(model => Model.Preferred_Pronouns)</dd>
+
+            <dt>Major/Minor</dt>
+            <dd>@Html.TextBoxFor(model => Model.Major_Minor)</dd>
+
+            <dt>Birthday</dt>
+            <dd>@Html.TextBoxFor(model => Model.Birthday)</dd>
+
+            <dt>Expected Graduation</dt>
+            <dd>@Html.TextBoxFor(model => Model.Expected_Graduation)</dd>
+
+            <dt>Bio - 500 characters or less</dt>
+            <dd>@Html.TextBoxFor(model => Model.Brother_Bio)</dd>
+        </dl>
+        <input class="btn-outline-primary" type="submit" value="Save" />
+    </fieldset>
+}
