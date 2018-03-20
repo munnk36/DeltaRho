@@ -6,6 +6,7 @@ using System;
 
 namespace DeltaRhoPortal.Models
 {
+    //TODO refactor to just use 
     public class ManageViewModel
     {
         public status Status { get; set; }
